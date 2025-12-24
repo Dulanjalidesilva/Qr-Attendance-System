@@ -31,20 +31,16 @@
 
             <tbody>
                 @foreach ($subject->students as $student)
-
                     <tr>
-                        <td>{{ $student->name }}</td>
+                        <td>{{ $student->user->email }}</td>
 
-                        @php
-                            $presentCount = 0;
-                        @endphp
+                        @php $presentCount = 0; @endphp
 
                         @foreach ($lectures as $lecture)
-
                             @php
-                                $isPresent = $attendance->where('lecture_id', $lecture->id)
-                                                       ->where('student_id', $student->id)
-                                                       ->first();
+                                // ✅ Use keyed attendance map
+                                $key = $student->id . '-' . $lecture->id;
+                                $isPresent = isset($attendance[$key]); // only scanned records exist here
                             @endphp
 
                             <td class="{{ $isPresent ? 'text-success' : 'text-danger' }}">
@@ -54,13 +50,10 @@
                             @php
                                 if ($isPresent) $presentCount++;
                             @endphp
-
                         @endforeach
 
                         <td><strong>{{ $presentCount }}</strong></td>
-
                     </tr>
-
                 @endforeach
             </tbody>
         </table>

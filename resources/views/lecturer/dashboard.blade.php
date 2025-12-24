@@ -92,6 +92,17 @@
                        ">
                         View Students
                     </a>
+                    <a href="{{ route('lecturer.subject.attendance.pdf', $subject->id) }}"
+                    class="btn"
+                    style="
+                            background:#9333ea;
+                            color:white;
+                            padding:9px 20px;
+                            border-radius:10px;
+                        ">
+                        Download Attendance PDF
+                    </a>
+
 
                 </div>
 

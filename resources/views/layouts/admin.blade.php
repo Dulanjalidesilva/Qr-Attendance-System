@@ -33,12 +33,7 @@
 
         <a href="{{ route('student.dashboard') }}">Dashboard</a>
 
-        <a href="{{ route('student.dashboard') }}">View Subjects</a>
-
         
-        
-
-        <a href="#">Attendance Report</a>
 
         <a href="{{ route('student.logout') }}">Logout</a>
 

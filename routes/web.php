@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 use App\Models\User;
 
 // Lecturer Controllers
@@ -68,7 +69,7 @@ Route::get('/lecturer/logout', function () {
 
 /*
 |--------------------------------------------------------------------------
-| STUDENT LOGIN ROUTES  ✅ FIXED (QR RESUME LOGIC)
+| STUDENT LOGIN ROUTES  ✅ FIXED (QR RESUME + SIGNED URL)
 |--------------------------------------------------------------------------
 */
 Route::get('/student/login', function () {
@@ -88,13 +89,18 @@ Route::post('/student/login', function () {
     if (!Auth::attempt(request(['email', 'password'])))
         return back()->withErrors(['error' => 'Invalid Student ID / password']);
 
-    // 🔥 VERY IMPORTANT FIX:
-    // If QR scan happened before login → resume scan
+    // ✅ If QR scan happened before login → resume scan (SIGNED URL REQUIRED)
     if (session()->has('qr_lecture_id')) {
         $lectureId = session('qr_lecture_id');
         session()->forget('qr_lecture_id');
 
-        return redirect()->route('student.scan', $lectureId);
+        $signedUrl = URL::temporarySignedRoute(
+            'student.scan',
+            now()->addMinutes(10),
+            ['lecture_id' => $lectureId]
+        );
+
+        return redirect($signedUrl);
     }
 
     return redirect()->route('student.dashboard');
@@ -161,14 +167,22 @@ Route::middleware('auth')->prefix('lecturer')->name('lecturer.')->group(function
     Route::get('/lectures/{id}', [LectureController::class, 'show'])
         ->name('lectures.show');
 
-        // ✅ DELETE LECTURE
     Route::delete('/lectures/{id}',[LectureController::class, 'destroy'])
         ->name('lectures.destroy');
-
 
     Route::get('/subject/{id}/attendance',
         [\App\Http\Controllers\Lecturer\SubjectAttendanceController::class, 'view']
     )->name('subject.attendance');
+
+    // ✅ SUBJECT-WISE PDF (existing)
+    Route::get('/subject/{id}/attendance/pdf',
+        [\App\Http\Controllers\Lecturer\SubjectAttendanceController::class, 'exportPdf']
+    )->name('subject.attendance.pdf');
+
+    // ✅ NEW: LECTURE-WISE PDF (download only that lecture report)
+    Route::get('/lectures/{id}/attendance/pdf',
+        [\App\Http\Controllers\Lecturer\SubjectAttendanceController::class, 'exportLecturePdf']
+    )->name('lectures.attendance.pdf');
 
     Route::get('/subject/{id}/students/add',
         [\App\Http\Controllers\Lecturer\SubjectStudentController::class, 'addStudents']
@@ -190,10 +204,9 @@ Route::middleware('auth')->prefix('lecturer')->name('lecturer.')->group(function
 */
 Route::prefix('student')->name('student.')->group(function () {
 
-    // 📱 QR SCAN (NO LOGIN REQUIRED)
     Route::get('/scan/{lecture_id}',
         [AttendanceController::class, 'scan']
-    )->name('scan');
+    )->name('scan')->middleware('signed');
 
     Route::middleware('auth')->group(function () {
 

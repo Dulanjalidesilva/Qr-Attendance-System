@@ -4,10 +4,8 @@
 
 @section('content')
 
-
-<div class="table-container">
-
-    <h2 style="margin-bottom:15px;">Subjects List</h2>
+<div class="table-box">
+ 
 
     <a href="{{ route('admin.subjects.create') }}" class="btn btn-primary">+ Add Subject</a>
 

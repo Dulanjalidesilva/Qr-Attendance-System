@@ -1,6 +1,14 @@
-<h1>Edit Student</h1>
+@extends('layouts.admin')
 
-<form method="POST" action="{{ route('admin.students.update', $student->id) }}">
+@section('title', 'Edit Lecturer')
+
+@section('content')
+
+<div class="card">
+    <h3>Edit Lecturer</h3>
+    <p>Update Student details below.</p>
+
+    <form method="POST" action="{{ route('admin.students.update', $student->id) }}">
     @csrf
     @method('PUT')
 
@@ -13,5 +21,15 @@
     <label>Student Number:</label>
     <input type="text" name="student_number" value="{{ $student->student_number }}" required><br><br>
 
-    <button type="submit">Update</button>
+    <div class="actions">
+            <a href="{{ route('admin.subjects.index') }}" class="btnx btn-secondary">
+                ⬅ Back
+            </a>
+
+    <button type="submit" class="btnx btn-primary">
+                ✅ Update Subject
+            </button>
 </form>
+</div>
+
+@endsection

@@ -4,8 +4,8 @@
 
 @section('content')
 
-<h1>Students List</h1>
 
+<div class="table-box">
 <a class="btn btn-primary" href="{{ route('admin.students.create') }}">+ Add Student</a>
 
 <table border="1" cellpadding="10" cellspacing="0">
@@ -38,5 +38,6 @@
     @endforeach
 
 </table>
+</div>
 
 @endsection

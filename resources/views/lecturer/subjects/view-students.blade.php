@@ -14,7 +14,7 @@
         <table class="table table-bordered" style="margin-top:20px;">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th>Number</th>
                     <th>Student Email</th>
                     <th>Student Number</th>
                 </tr>

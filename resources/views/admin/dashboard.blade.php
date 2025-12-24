@@ -12,7 +12,7 @@
         <p>Total Registered: <strong>{{ $students }}</strong></p>
         <p>Register and manage students</p>
 
-        <a href="{{ route('admin.students.index') }}">Go to Students</a>
+        
     </div>
 
     <!-- LECTURERS CARD -->
@@ -21,7 +21,7 @@
         <p>Total Registered: <strong>{{ $lecturers }}</strong></p>
         <p>Register and manage lecturers</p>
 
-        <a href="{{ route('admin.lecturers.index') }}">Go to Lecturers</a>
+        
     </div>
 
     <!-- SUBJECTS CARD -->
@@ -29,8 +29,6 @@
         <h3>Subjects</h3>
         <p>Total Subjects: <strong>{{ $subjects }}</strong></p>
         <p>Add and manage subjects</p>
-
-        <a href="{{ route('admin.subjects.index') }}">Go to Subjects</a>
     </div>
 
 </div>

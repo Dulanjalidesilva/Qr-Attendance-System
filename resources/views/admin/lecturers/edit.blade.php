@@ -28,7 +28,14 @@
             <option value="English" {{ $lecturer->department == 'English' ? 'selected' : '' }}>English Department</option>
         </select>
 
-        <button type="submit" class="btn btn-primary">Update Lecturer</button>
+        <div class="actions">
+            <a href="{{ route('admin.subjects.index') }}" class="btnx btn-secondary">
+                ⬅ Back
+            </a>
+
+        <button type="submit" class="btnx btn-primary">
+                ✅ Update Subject
+            </button>
     </form>
 </div>
 

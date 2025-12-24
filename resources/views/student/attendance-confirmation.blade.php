@@ -20,6 +20,7 @@
 
         <p><strong>Time Marked:</strong>
             {{ \Carbon\Carbon::parse($attendance->scanned_at)->format('h:i A') }}
+            
         </p>
 
         <p class="mt-3">
